@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 3.2
+    commands:
+      - echo "Installing dependencies..."
+      - gem install bundler
+      - bundle install
+      
+  build:
+    commands:
+      - echo "Running tests..."
+      - bundle exec rake test
+
+  post_build:
+    commands:
+      - echo "Build completed on `date`"
+      - echo "Tests completed successfully"
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no
