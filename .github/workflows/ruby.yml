@@ -71,21 +71,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Create Dockerfile if not exists
         run: |
           if [ ! -f Dockerfile ]; then
             cat > Dockerfile << 'EOF'
-            FROM alpine:latest
-            RUN mkdir -p /app
-            COPY dist/ /app/dist/
-            COPY src/ /app/src/
-            COPY scripts/ /app/scripts/
-            WORKDIR /app
-            CMD ["sh", "-c", "echo 'Container running' && tail -f /dev/null"]
-            EOF
+FROM alpine:latest
+RUN mkdir -p /app
+COPY dist/ /app/dist/
+COPY src/ /app/src/
+COPY scripts/ /app/scripts/
+WORKDIR /app
+CMD ["sh", "-c", "echo 'Container running' && tail -f /dev/null"]
+EOF
           fi
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
