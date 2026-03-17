@@ -25,9 +25,17 @@ jobs:
         run: |
           bundle install
       
-      - name: Run tests
+      - name: Check and Run Tests
         run: |
-          bundle exec rake test
+          if [ -f "Rakefile" ] && grep -q "test" Rakefile; then
+            echo "Running tests..."
+            bundle exec rake test
+          elif [ -d "test" ] && [ "$(ls -A test 2>/dev/null)" ]; then
+            echo "Test directory found, running tests..."
+            bundle exec rake test
+          else
+            echo "No tests found - skipping test step"
+          fi
         continue-on-error: true
       
       - name: Build artifact
